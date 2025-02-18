@@ -5,6 +5,7 @@ import logging
 import numpy as np
 from random import choice
 from datetime import datetime
+from decimal import Decimal
 from cryptography.fernet import Fernet
 
 # https://www.geeksforgeeks.org/encrypt-and-decrypt-files-using-python/
@@ -55,7 +56,7 @@ def askDelta(minBet, maxBet):
     elif float(delta) == 0:
         print("Invalid increment size: the increment size cannot equal 0.\n")
         return askDelta(minBet, maxBet)
-    elif (maxBet - minBet) % float(delta) == 0:
+    elif Decimal(str(maxBet - minBet)) % Decimal(str(delta)) == Decimal('0'):
         return float(delta)
     else:
         print("Invalid increment size: the difference of the maximum and minimum bet is."
@@ -159,6 +160,7 @@ def newSession():
     displayAverageIncome(minBet, maxBet, delta)
     bets = np.arange(minBet, maxBet + delta, delta).tolist()
     hiddenNum = choice(bets)
+    writeSession(hiddenNum, bets, [])
     displayBets(hiddenNum, bets, [])
 
 
